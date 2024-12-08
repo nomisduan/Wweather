@@ -8,24 +8,31 @@
 import SwiftUI
 
 struct WeatherTileView: View {
+    let temperature : Int
+    let feelsLike : Int
+    let rainMm : Int
+    let rain12h : Int
+    let humidity : Int
+    let weatherConditions : String
+    
     var body: some View {
         ZStack{
             VStack(alignment: .leading){
 // Bloc Temperature & conditions
                 HStack{
                     VStack(alignment: .leading){
-                        Text("3°")
+                        Text("\(temperature)°")
                             .font(.title)
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
-                        Text("Feels like 0°")
+                        Text("Feels like \(feelsLike)°")
                             .font(.caption)
                             .foregroundStyle(.gray)
                     }
                     
                     Spacer()
                     
-                    Image(systemName: "cloud.snow.fill")
+                    Image(systemName: weatherConditions)
                         .foregroundStyle(.white)
                         .font(.largeTitle)
                 }
@@ -36,12 +43,12 @@ struct WeatherTileView: View {
                         Image(systemName: "drop.halffull")
                             .foregroundStyle(.white)
                         
-                        Text("2mm")
+                        Text("\(rainMm)mm")
                             .font(.title2)
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
                     }
-                    Text("12mm next 12h")
+                    Text("\(rain12h)mm next 12h")
                         .font(.caption)
                         .foregroundStyle(.gray)
                 }
@@ -51,7 +58,7 @@ struct WeatherTileView: View {
                     Image(systemName: "humidity.fill")
                         .foregroundStyle(.white)
                     
-                    Text("77%")
+                    Text("\(humidity)%")
                         .font(.title2)
                         .foregroundStyle(.white)
                         .fontWeight(.bold)
@@ -67,5 +74,5 @@ struct WeatherTileView: View {
 }
 
 #Preview {
-    WeatherTileView()
+    WeatherTileView(temperature: 3, feelsLike: 0, rainMm: 3, rain12h: 12, humidity: 74, weatherConditions: "cloud.snow.fill")
 }

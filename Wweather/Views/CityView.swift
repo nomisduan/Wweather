@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct CityView: View {
+    
+    let cityName : String
+    
     var body: some View {
         VStack{
-            Text("Napoli")
+            Text(cityName)
                 .font(.system(.largeTitle, design: .serif))
                 .fontWeight(.semibold)
                 .foregroundStyle(.white)
@@ -24,5 +27,5 @@ struct CityView: View {
 }
 
 #Preview {
-    ContentView()
+    CityView(cityName: "Napoli")
 }

@@ -7,13 +7,25 @@
 
 import SwiftUI
 
+
+
 struct AirQualityView: View {
+    
+    let airQualityLabel : String
+    let airQualityCursor : Double
+    
     var body: some View {
         ZStack(alignment: .topLeading){
             VStack(alignment: .leading, spacing: 1){
-                Text("Fair")
-                    .foregroundStyle(.white)
-                    .font(.title3)
+                HStack {
+                    Text(airQualityLabel)
+                        .foregroundStyle(.white)
+                        .font(.title3)
+                    if airQualityCursor >= 25.0 {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.yellow)
+                    }
+                }
                 ZStack {
                     RoundedRectangle(cornerRadius: 4)
                         .frame(width: 140, height: 8)
@@ -23,7 +35,7 @@ struct AirQualityView: View {
                     Circle()
                         .frame(width: 20)
                         .foregroundStyle(.white)
-                        
+                        .offset(x: CGFloat(airQualityCursor))
                 }
             }
         }
@@ -35,5 +47,5 @@ struct AirQualityView: View {
 }
 
 #Preview {
-    AirQualityView()
+    AirQualityView(airQualityLabel: "Fair", airQualityCursor: 51.0)
 }

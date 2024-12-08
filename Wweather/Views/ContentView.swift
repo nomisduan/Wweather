@@ -17,8 +17,8 @@ struct ContentView: View {
                         .edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading, spacing: 1) {
                 HStack{
-                    CityView()
-                    CityView()
+                    CityView(cityName: "Napoli")
+                    CityView(cityName: "Montreal")
                 }
                 .padding(.bottom, 10)
                 HStack{
@@ -30,8 +30,8 @@ struct ContentView: View {
                         .foregroundStyle(.gray)
                 }
                 HStack{
-                    WeatherTileView()
-                    WeatherTileView()
+                    WeatherTileView(temperature: 3, feelsLike: 0, rainMm: 3, rain12h: 12, humidity: 74, weatherConditions: "cloud.snow.fill")
+                    WeatherTileView(temperature: -3, feelsLike: -10, rainMm: 0, rain12h: 0, humidity: 40, weatherConditions: "sun.max.fill")
                 }
                 .padding(.bottom)
                 HStack{
@@ -43,8 +43,8 @@ struct ContentView: View {
                         .foregroundStyle(.gray)
                 }
                 HStack{
-                    WindTileView()
-                    WindTileView()
+                    WindTileView(windSpeed: 20, windDirection: 180.0)
+                    WindTileView(windSpeed: 34, windDirection: 90.0)
                 }
                 .padding(.bottom)
                 HStack{
@@ -56,9 +56,11 @@ struct ContentView: View {
                         .foregroundStyle(.gray)
                 }
                 HStack{
-                    AirQualityView()
-                    AirQualityView()
+                    AirQualityView(airQualityLabel: "Poor", airQualityCursor: 30.0)
+                    AirQualityView(airQualityLabel: "Fair", airQualityCursor: -30.0)
                 }
+                Spacer()
+                TimeTravelBarView()
             }
             .padding()
         }

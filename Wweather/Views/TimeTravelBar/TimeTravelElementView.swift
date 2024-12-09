@@ -24,7 +24,8 @@ struct TimeTravelElementView: View {
                 topTrailing: 10.0),
                                    style: .continuous)
             
-            .frame(width: isTouched ? 18 : 15, height: isTouched ? 30 : 25)
+            .frame(width: isTouched ? 25 : 15, height: isTouched ? 36 : 25)
+            .shadow(radius: isTouched ? 3 : 0)
             .foregroundStyle(rectangleTopColor)
             .animation(.easeInOut(duration: 0.2), value: isTouched)
                         .gesture(
@@ -45,7 +46,8 @@ struct TimeTravelElementView: View {
                 bottomTrailing: 10.0,
                 topTrailing: 0.0),
                                    style: .continuous)
-            .frame(width: isTouched ? 18 : 15, height: isTouched ? 25 : 20)
+            .frame(width: isTouched ? 25 : 15, height: isTouched ? 31 : 20)
+            .shadow(radius: isTouched ? 3 : 0)
             .foregroundStyle(rectangleBottomColor)
             .animation(.easeInOut(duration: 0.2), value: isTouched)
                         .gesture(

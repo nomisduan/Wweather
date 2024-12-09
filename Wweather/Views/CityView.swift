@@ -17,7 +17,7 @@ struct CityView: View {
                 .font(.system(.largeTitle, design: .serif))
                 .fontWeight(.semibold)
                 .foregroundStyle(.white)
-            Text("13:22")
+            Text(Date.now, format: .dateTime.hour().minute())
                 .font(.largeTitle)
                 .fontWeight(.light)
                 .foregroundStyle(.white)

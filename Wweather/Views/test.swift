@@ -6,25 +6,26 @@
 //
 
 import SwiftUI
-struct test: View {
-    @State private var currentAmount = 0.0
-    @State private var finalAmount = 1.0
+import CoreLocation
 
+struct test: View {
+    @ObservedObject var weatherKitManager = WeatherKitManager()
+    @StateObject var locationDataManager = LocationDataManager()
+    
     var body: some View {
-        Text("Hello, World!")
-            .scaleEffect(finalAmount + currentAmount)
-            .gesture(
-                MagnifyGesture()
-                    .onChanged { value in
-                        currentAmount = value.magnification - 1
-                    }
-                    .onEnded { value in
-                        finalAmount += currentAmount
-                        currentAmount = 0
-                    }
-            )
+        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
+            Label(weatherKitManager.temp, systemImage: weatherKitManager.symbol)
+                .task {
+                    await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+                }
+        } else {
+            Text("Error Loading Location")
+        }
     }
 }
-#Preview {
-    test()
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

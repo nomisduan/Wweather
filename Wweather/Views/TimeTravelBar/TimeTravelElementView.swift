@@ -9,35 +9,59 @@ import SwiftUI
 
 struct TimeTravelElementView: View {
 
-    let roundedTop : Bool
-    let rectangleColor : Color
+    let rectangleTopColor : Color
+    let rectangleBottomColor : Color
+    @State private var isTouched = false
+    
     
     var body: some View {
-        if roundedTop == true {
+       
+        VStack(spacing:0) {
             UnevenRoundedRectangle(cornerRadii: .init(
-                
-                                                                topLeading: 10.0,
-                                                                bottomLeading: 0.0,
-                                                                bottomTrailing: 0.0,
-                                                                topTrailing: 10.0),
-                                                                style: .continuous)
-                .frame(width: 15, height: 20)
-                .foregroundStyle(rectangleColor)
-        } else {
-            UnevenRoundedRectangle(cornerRadii: .init(
-                
-                                                                topLeading: 0.0,
-                                                                bottomLeading: 10.0,
-                                                                bottomTrailing: 10.0,
-                                                                topTrailing: 0.0),
-                                                                style: .continuous)
-                .frame(width: 15, height: 15)
-                .foregroundStyle(rectangleColor)
-        }
+                topLeading: 10.0,
+                bottomLeading: 0.0,
+                bottomTrailing: 0.0,
+                topTrailing: 10.0),
+                                   style: .continuous)
             
-   
+            .frame(width: isTouched ? 18 : 15, height: isTouched ? 30 : 25)
+            .foregroundStyle(rectangleTopColor)
+            .animation(.easeInOut(duration: 0.2), value: isTouched)
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in
+                                    isTouched = true
+                                }
+                                .onEnded { _ in
+                                    isTouched = false
+                                }
+            )
+            
+            
+            UnevenRoundedRectangle(cornerRadii: .init(
+                
+                topLeading: 0.0,
+                bottomLeading: 10.0,
+                bottomTrailing: 10.0,
+                topTrailing: 0.0),
+                                   style: .continuous)
+            .frame(width: isTouched ? 18 : 15, height: isTouched ? 25 : 20)
+            .foregroundStyle(rectangleBottomColor)
+            .animation(.easeInOut(duration: 0.2), value: isTouched)
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in
+                                    isTouched = true
+                                }
+                                .onEnded { _ in
+                                    isTouched = false 
+                                }
+                            )
+            
+            
+        }
     }
 }
 #Preview {
-    TimeTravelElementView(roundedTop: true, rectangleColor: .blue)
+    TimeTravelElementView(rectangleTopColor: .blue, rectangleBottomColor: .orange)
 }

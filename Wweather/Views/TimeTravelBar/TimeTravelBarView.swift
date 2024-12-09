@@ -8,42 +8,53 @@
 import SwiftUI
 
 struct TimeTravelBarView: View {
+    
+    let topCity : String
+    let bottomCity : String
+    
     var body: some View {
         
-        ZStack(alignment: .center) {
-           
-            VStack (spacing: 0){
+        HStack {
+            
+            
+            
+            ZStack {
+                
+                
                 HStack{
-                    HStack{
-                        Text("Na")
+                    
+                    VStack {
+                        Text(topCity)
                             .foregroundStyle(.white)
-                            .font(.system(.body, design: .serif))
-                           // .padding(.bottom, 5)
+                            .font(.system(.title3, design: .serif))
+                        // .padding(.bottom, 5)
+                            .frame(width: 30)
+                        
+                        Text(bottomCity)
+                            .foregroundStyle(.white)
+                            .font(.system(.title3, design: .serif))
+                        // .padding(.bottom, 5)
+                            .frame(width: 30)
+                        
                     }
-                    .frame(width: 30)
-                    ForEach((1...12).reversed(), id: \.self) {_ in
-                        TimeTravelElementView(roundedTop: true, rectangleColor: .gray)
+                    .padding(.trailing)
+                    
+                    HStack(spacing: 5) {
+                        ForEach((1...12), id: \.self) {_ in
+                            TimeTravelElementView(rectangleTopColor: .cyan, rectangleBottomColor: .purple)
+                        }
+                        .frame(width: 18, height: 60)
+                    
                     }
                 }
                 
-                HStack{
-                    HStack{
-                        Text("Mo")
-                            .foregroundStyle(.white)
-                            .font(.system(.body, design: .serif))
-                            //.padding(.top, 5)
-                    }
-                    .frame(width: 30)
-                    ForEach((1...12).reversed(), id: \.self) {_ in
-                        TimeTravelElementView(roundedTop: false, rectangleColor: .gray)
-                            
-                    }
-                }
+                
+                
+                Capsule()
+                    .frame(width: 350, height: 5)
+                    .foregroundStyle(.white)
+                    .shadow(radius: 5)
             }
-            Capsule()
-                .frame(width: 350, height: 5)
-                .foregroundStyle(.white)
-                .shadow(radius: 5)
         }
     }
 }

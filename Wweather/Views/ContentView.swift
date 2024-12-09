@@ -60,7 +60,7 @@ struct ContentView: View {
                     AirQualityView(airQualityLabel: "Fair", airQualityCursor: -30.0)
                 }
                 Spacer()
-                TimeTravelBarView()
+                TimeTravelBarView(topCity: "Na", bottomCity: "Mo")
             }
             .padding()
         }

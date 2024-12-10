@@ -30,14 +30,14 @@ struct WeatherTileView: View {
                                 .font(.title)
                                 .foregroundStyle(.white)
                                 .fontWeight(.bold)
-                            Text("Feels like \(feelsLike)°")
+                            Text("Feels like \(weatherKitManager.feelsLike)°")
                                 .font(.caption)
                                 .foregroundStyle(.gray)
                         }
                         
                         Spacer()
                         
-                        Image(systemName: weatherConditions)
+                        Image(systemName: weatherKitManager.symbol)
                             .foregroundStyle(.white)
                             .font(.largeTitle)
                     }
@@ -63,60 +63,7 @@ struct WeatherTileView: View {
                         Image(systemName: "humidity.fill")
                             .foregroundStyle(.white)
                         
-                        Text("\(humidity)%")
-                            .font(.title2)
-                            .foregroundStyle(.white)
-                            .fontWeight(.bold)
-                    }
-                }
-                .padding()
-            }
-            .frame(width: 180, height: 195)
-            .background(Color.deepdark)
-            .cornerRadius(25)
-            ZStack{
-                VStack(alignment: .leading){
-    // Bloc Temperature & conditions
-                    HStack{
-                        VStack(alignment: .leading){
-                            Text("\(temperature)°")
-                                .font(.title)
-                                .foregroundStyle(.white)
-                                .fontWeight(.bold)
-                            Text("Feels like \(feelsLike)°")
-                                .font(.caption)
-                                .foregroundStyle(.gray)
-                        }
-                        
-                        Spacer()
-                        
-                        Image(systemName: weatherConditions)
-                            .foregroundStyle(.white)
-                            .font(.largeTitle)
-                    }
-                    Spacer()
-    // Bloc Precipitations
-                    VStack(alignment: .leading){
-                        HStack {
-                            Image(systemName: "drop.halffull")
-                                .foregroundStyle(.white)
-                            
-                            Text("\(rainMm)mm")
-                                .font(.title2)
-                                .foregroundStyle(.white)
-                                .fontWeight(.bold)
-                        }
-                        Text("\(rain12h)mm next 12h")
-                            .font(.caption)
-                            .foregroundStyle(.gray)
-                    }
-    // Bloc Humidity
-                    Spacer()
-                    HStack{
-                        Image(systemName: "humidity.fill")
-                            .foregroundStyle(.white)
-                        
-                        Text("\(humidity)%")
+                        Text("\(weatherKitManager.humidity)%")
                             .font(.title2)
                             .foregroundStyle(.white)
                             .fontWeight(.bold)

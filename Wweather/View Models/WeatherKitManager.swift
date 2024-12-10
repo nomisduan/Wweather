@@ -22,17 +22,54 @@ import WeatherKit
         }
     }
     
+    var temp: String {
+        if let temperature = weather?.currentWeather.temperature {
+            let celsiusValue = temperature.converted(to: .celsius).value
+            return "\(Int(celsiusValue))"
+        } else {
+            return "..."
+        }
+    }
+    
     var symbol: String {
         weather?.currentWeather.symbolName ?? "xmark"
     }
     
-    var temp: String {
-        let temp =
-        weather?.currentWeather.temperature
-        
-        let convert = temp?.converted(to: .celsius).description
-        return convert ?? "Loading Weather Data"
-        
+    var feelsLike: String {
+        if let feelsLikeTemperature = weather?.currentWeather.apparentTemperature {
+            let celsiusValue = feelsLikeTemperature.converted(to: .celsius).value
+            return "\(Int(celsiusValue))"
+        } else {
+            return "..."
+        }
     }
+    
+    var humidity: String {
+        if let humidityPercentage = weather?.currentWeather.humidity {
+           // let celsiusValue = feelsLikeTemperature.converted(to: .celsius).value
+            return "\(Int(humidityPercentage))"
+        } else {
+            return "..."
+        }
+    }
+    
+    var windSpeed: String {
+        if let windSpeedKph = weather?.currentWeather.wind.speed {
+            let kmValue = windSpeedKph.converted(to: .kilometersPerHour).value
+            return "\(Int(kmValue))"
+        } else {
+            return "..."
+        }
+    }
+    
+    var windDirection: Double {
+        if let windDirectionMeasurement = weather?.currentWeather.wind.direction {
+            let windDirectionInDegrees = windDirectionMeasurement.converted(to: .degrees).value
+            return windDirectionInDegrees
+        } else {
+            return 0
+        }
+    }
+    
     
 }

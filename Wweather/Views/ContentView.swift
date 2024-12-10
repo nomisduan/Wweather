@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isSheetPresented = false
+    
     var body: some View {
         ZStack(alignment: .top){
             Color.backgroundDark.edgesIgnoringSafeArea(.all)
@@ -15,21 +18,29 @@ struct ContentView: View {
             LinearGradient(gradient: Gradient(colors: [Color.backgroundLight, Color.clear]), startPoint: .top, endPoint: .bottom)
                         .frame(height: 200)
                         .edgesIgnoringSafeArea(.all)
+            
             VStack {
                 VStack(alignment: .leading, spacing: 1)
                 {
                     Spacer()
                     HStack{
-                        CityView(cityName: "Napoli")
-                        CityView(cityName: "Montreal")
-                    }
+                        LocalCityView()
+                                               Button(action: {
+                                                   isSheetPresented = true
+                                               }) {
+                                                   CityView(cityName: "Napoli")
+                                               }
+                                               .buttonStyle(PlainButtonStyle())
+                                           }
+                                           .padding(.bottom, 10)
+                    
                     .padding(.bottom, 10)
                     HStack{
                         Image(systemName: "thermometer.medium")
-                        //.font(.caption)
+           
                             .foregroundStyle(.gray)
                         Text("Weather conditions")
-                        //.font(.caption)
+   
                             .foregroundStyle(.gray)
                     }
                     HStack{
@@ -39,10 +50,10 @@ struct ContentView: View {
                     .padding(.bottom)
                     HStack{
                         Image(systemName: "wind")
-                        //.font(.caption)
+                        
                             .foregroundStyle(.gray)
                         Text("Wind")
-                        //.font(.caption)
+                    
                             .foregroundStyle(.gray)
                     }
                     HStack{
@@ -64,11 +75,13 @@ struct ContentView: View {
                     }
                     
                 }
-                TimeTravelBarView(topCity: "Na", bottomCity: "Mo")
+                TimeTravelBarView(topCity: "Na", bottomCity: "Na")
             }
         .padding()
         }
-        
+        .sheet(isPresented: $isSheetPresented) {
+            SearchCityView(cityName: "Napoli")
+        }
     }
 }
 

@@ -9,15 +9,15 @@ import SwiftUI
 
 struct WindTileView: View {
     
-    @ObservedObject var weatherKitManager = WeatherKitManager()
-    @StateObject var locationDataManager = LocationDataManager()
+    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
+    @StateObject var locationManager = LocationManager()
     
     let windSpeed : Int
     let windDirection : Double
     
     var body: some View {
         
-        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
         ZStack{
 
             Circle()
@@ -64,7 +64,7 @@ struct WindTileView: View {
                 .scaledToFit()
                 .foregroundStyle(.white)
                 .frame(height: 85)
-                .rotationEffect(Angle(degrees: weatherKitManager.windDirection))
+                .rotationEffect(Angle(degrees: localWeatherKitManager.windDirection))
             Circle()
                 .foregroundStyle(Color.deepdark)
                 .frame(width: 60, height: 60)
@@ -72,7 +72,7 @@ struct WindTileView: View {
                 .foregroundStyle(.white)
                 .frame(width: 55, height: 55)
             VStack(spacing: -3){
-                Text(String(weatherKitManager.windSpeed))
+                Text(String(localWeatherKitManager.windSpeed))
                     .foregroundStyle(.gray)
                     .font(.title3)
                     .fontWeight(.semibold)
@@ -89,7 +89,7 @@ struct WindTileView: View {
             .cornerRadius(25)
 
             .task {
-                await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+                await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
             }
     } else {
         Text("Error Loading Location")

@@ -15,29 +15,29 @@ struct WeatherTileView: View {
     let humidity : Int
     let weatherConditions : String
     
-    @ObservedObject var weatherKitManager = WeatherKitManager()
-    @StateObject var locationDataManager = LocationDataManager()
+    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
+    @StateObject var locationManager = LocationManager()
     
     var body: some View {
         
-        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
             ZStack{
                 VStack(alignment: .leading){
     // Bloc Temperature & conditions
                     HStack{
                         VStack(alignment: .leading){
-                            Text("\(weatherKitManager.temp)°")
+                            Text("\(localWeatherKitManager.temp)°")
                                 .font(.title)
                                 .foregroundStyle(.white)
                                 .fontWeight(.bold)
-                            Text("Feels like \(weatherKitManager.feelsLike)°")
+                            Text("Feels like \(localWeatherKitManager.feelsLike)°")
                                 .font(.caption)
                                 .foregroundStyle(.gray)
                         }
                         
                         Spacer()
                         
-                        Image(systemName: weatherKitManager.symbol)
+                        Image(systemName: localWeatherKitManager.symbol)
                             .foregroundStyle(.white)
                             .font(.largeTitle)
                     }
@@ -63,7 +63,7 @@ struct WeatherTileView: View {
                         Image(systemName: "humidity.fill")
                             .foregroundStyle(.white)
                         
-                        Text("\(weatherKitManager.humidity)%")
+                        Text("\(localWeatherKitManager.humidity)%")
                             .font(.title2)
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
@@ -76,7 +76,7 @@ struct WeatherTileView: View {
             .cornerRadius(25)
             
                 .task {
-                    await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+                    await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
                 }
         } else {
             Text("Error Loading Location")

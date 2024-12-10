@@ -8,7 +8,7 @@
 import Foundation
 import WeatherKit
 
-@MainActor class WeatherKitManager: ObservableObject {
+@MainActor class LocalWeatherKitManager: ObservableObject {
     
     @Published var weather: Weather?
     
@@ -46,8 +46,7 @@ import WeatherKit
     
     var humidity: String {
         if let humidityPercentage = weather?.currentWeather.humidity {
-           // let celsiusValue = feelsLikeTemperature.converted(to: .celsius).value
-            return "\(Int(humidityPercentage))"
+            return "\(Int(humidityPercentage * 100))"
         } else {
             return "..."
         }

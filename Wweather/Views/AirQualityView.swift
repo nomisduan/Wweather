@@ -11,15 +11,15 @@ import SwiftUI
 
 struct AirQualityView: View {
     
-    @ObservedObject var weatherKitManager = WeatherKitManager()
-    @StateObject var locationDataManager = LocationDataManager()
+    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
+    @StateObject var locationManager = LocationManager()
     
     let airQualityLabel : String
     let airQualityCursor : Double
     
     var body: some View {
         
-        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
         ZStack(alignment: .topLeading){
             VStack(alignment: .leading, spacing: 1){
                 HStack {
@@ -49,7 +49,7 @@ struct AirQualityView: View {
             .cornerRadius(25)
             
             .task {
-                await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+                await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
             }
     } else {
         Text("Error Loading Location")

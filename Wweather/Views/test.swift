@@ -9,23 +9,74 @@ import SwiftUI
 import CoreLocation
 
 struct test: View {
-    @ObservedObject var weatherKitManager = WeatherKitManager()
-    @StateObject var locationDataManager = LocationDataManager()
+    
+    
+    @StateObject private var autocompleteManager = AddressAutocompleteManager()
+    @State private var address: String = ""
+    @State private var selectedSuggestion: String = ""
+    @State private var coordinates: CLLocationCoordinate2D?
+    @State private var errorMessage: String?
     
     var body: some View {
-        if locationDataManager.authorizationStatus == .authorizedWhenInUse {
-            Label(weatherKitManager.temp, systemImage: weatherKitManager.symbol)
-                .task {
-                    await weatherKitManager.getWeather(latitude: locationDataManager.latitude, longitude: locationDataManager.longitude)
+        VStack {
+            TextField("Entrez une adresse", text: $address)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .onChange(of: address) { newValue in
+                    autocompleteManager.updateQuery(newValue)
                 }
-        } else {
-            Text("Error Loading Location")
+            
+            if !autocompleteManager.suggestions.isEmpty {
+                List(autocompleteManager.suggestions, id: \.self) { suggestion in
+                    Text(suggestion)
+                        .onTapGesture {
+                            address = suggestion
+                            autocompleteManager.suggestions = [] // Clear suggestions
+                        }
+                }
+                .frame(height: 150) // Adjust the height as needed
+            }
+            
+            Button("Obtenir les coordonnées") {
+                getCoordinate(addressString: address) { coord, error in
+                    if let error = error {
+                        self.errorMessage = error.localizedDescription
+                        self.coordinates = nil
+                    } else {
+                        self.coordinates = coord
+                        self.errorMessage = nil
+                    }
+                }
+            }
+            .padding()
+            .buttonStyle(.borderedProminent)
+            
+            if let coordinates = coordinates {
+                Text("Latitude : \(coordinates.latitude)")
+                Text("Longitude : \(coordinates.longitude)")
+            } else if let errorMessage = errorMessage {
+                Text("Erreur : \(errorMessage)")
+                    .foregroundColor(.red)
+            }
         }
+        .padding()
+    }
+    
+    func getCoordinate(addressString: String, completionHandler: @escaping (CLLocationCoordinate2D, NSError?) -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
+            if error == nil {
+                if let placemark = placemarks?.first, let location = placemark.location {
+                    completionHandler(location.coordinate, nil)
+                    return
+                }
+            }
+            completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
+        }
+        
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+         #Preview {
+        test()
 }

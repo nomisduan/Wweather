@@ -1,20 +1,15 @@
 //
-//  AirQualityView.swift
+//  RemoteUVIndexTileView.swift
 //  Wweather
 //
-//  Created by Simon Naud on 07/12/2024.
+//  Created by Simon Naud on 11/12/24.
 //
 
 import SwiftUI
 
-
-
-struct UVIndexView: View {
-    
-   
-    
+struct RemoteUVIndexTileView: View {
     @StateObject private var locationManager = LocationManager()
-       @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
+    @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
     
     var body: some View {
@@ -61,5 +56,5 @@ struct UVIndexView: View {
 }
 
 #Preview {
-    UVIndexView()
+    RemoteUVIndexTileView()
 }

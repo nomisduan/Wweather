@@ -1,16 +1,14 @@
 //
-//  WeatherTileView.swift
+//  RemoteWeatherTileView.swift
 //  Wweather
 //
-//  Created by Simon Naud on 07/12/2024.
+//  Created by Simon Naud on 11/12/24.
 //
 
 import SwiftUI
 
-struct WeatherTileView: View {
-    
-    
-    @StateObject private var locationManager = LocationManager()
+struct RemoteWeatherTileView: View {
+        @StateObject private var locationManager = LocationManager()
        @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
     var body: some View {
@@ -85,5 +83,5 @@ struct WeatherTileView: View {
     
 
 #Preview {
-    WeatherTileView()
+    RemoteWeatherTileView()
 }

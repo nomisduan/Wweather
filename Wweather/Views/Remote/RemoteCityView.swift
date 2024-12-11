@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CityView: View {
+struct RemoteCityView: View {
     
     let cityName : String
     
@@ -28,5 +28,5 @@ struct CityView: View {
 }
 
 #Preview {
-    CityView(cityName: "Napoli")
+    RemoteCityView(cityName: "Napoli")
 }

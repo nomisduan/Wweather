@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WindTileView: View {
+struct LocalWindTileView: View {
     
     @StateObject private var locationManager = LocationManager()
        @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
@@ -99,5 +99,5 @@ struct WindTileView: View {
 
 
 #Preview {
-    WindTileView()
+    LocalWindTileView()
 }

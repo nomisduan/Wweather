@@ -66,7 +66,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     // CLLocationManagerDelegate - Gère les erreurs de localisation
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Erreur lors de la récupération de la localisation: \(error.localizedDescription)")
+        print("Error: \(error.localizedDescription)")
     }
 
     // CLLocationManagerDelegate - Gère les changements d'autorisation

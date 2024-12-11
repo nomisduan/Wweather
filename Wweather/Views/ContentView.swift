@@ -28,7 +28,7 @@ struct ContentView: View {
                                                Button(action: {
                                                    isSheetPresented = true
                                                }) {
-                                                   CityView(cityName: "Napoli")
+                                                   RemoteCityView(cityName: "Napoli")
                                                }
                                                .buttonStyle(PlainButtonStyle())
                                            }
@@ -44,8 +44,8 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        WeatherTileView()
-                        WeatherTileView()
+                        LocalWeatherTileView()
+                        RemoteWeatherTileView()
                     }
                     .padding(.bottom)
                     HStack{
@@ -57,8 +57,8 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        WindTileView()
-                        WindTileView()
+                        LocalWindTileView()
+                        RemoteWindTileView()
                     }
                     .padding(.bottom)
                     HStack{
@@ -70,8 +70,8 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        UVIndexView()
-                        UVIndexView()
+                        LocalUVIndexTileView()
+                        RemoteUVIndexTileView()
                     }
                     
                 }

@@ -19,7 +19,7 @@ struct test: View {
     
     var body: some View {
         VStack {
-            TextField("Entrez une adresse", text: $address)
+            TextField("Search for a city", text: $address)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
                 .onChange(of: address) { newValue in

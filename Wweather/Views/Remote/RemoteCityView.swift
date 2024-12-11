@@ -9,24 +9,28 @@ import SwiftUI
 
 struct RemoteCityView: View {
     
-    let cityName : String
+   
+    @Binding var city: String?
     
     var body: some View {
-        VStack{
-            Text(cityName)
-                .font(.system(.largeTitle, design: .serif))
-                .fontWeight(.semibold)
-                .foregroundStyle(.white)
-            
-            Text(Date.now, format: .dateTime.hour().minute())
-                .font(.largeTitle)
-                .fontWeight(.light)
-                .foregroundStyle(.white)
+        if let city = city {
+            VStack{
+                Text(city)
+                    .font(.system(.largeTitle, design: .serif))
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                
+                Text(Date.now, format: .dateTime.hour().minute())
+                    .font(.largeTitle)
+                    .fontWeight(.light)
+                    .foregroundStyle(.white)
+            }
+            .frame(width: 180)
         }
-        .frame(width: 180)
+        else {
+            Text("Select")
+        }
     }
 }
 
-#Preview {
-    RemoteCityView(cityName: "Napoli")
-}
+

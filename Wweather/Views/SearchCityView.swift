@@ -13,8 +13,8 @@ struct SearchCityView: View {
     @State private var address: String = ""
     @State private var errorMessage: String?
     
-    
-    @Binding var selectedCoordinates: CLLocationCoordinate2D? // Binding pour envoyer les coordonnées sélectionnées
+    @Binding var selectedCity: String?
+    @Binding var selectedCoordinates: CLLocationCoordinate2D?
 
     var body: some View {
         VStack(spacing: 16) {
@@ -44,6 +44,7 @@ struct SearchCityView: View {
                     .onTapGesture {
                         selectSuggestion(suggestion)
                         fetchCoordinates(for: suggestion.city)
+                        selectedCity = address
                     }
                 }
                 .listStyle(.inset)

@@ -13,6 +13,7 @@ struct ContentView: View {
   
     @State private var isSheetPresented = false
     @State private var selectedCoordinates: CLLocationCoordinate2D?
+    @State private var selectedCity: String?
     
     var body: some View {
         ZStack(alignment: .top){
@@ -31,7 +32,7 @@ struct ContentView: View {
                                                Button(action: {
                                                    isSheetPresented = true
                                                }) {
-                                                   RemoteCityView(cityName: "Napoli")
+                                                   RemoteCityView(city: $selectedCity)
                                                }
                                                .buttonStyle(PlainButtonStyle())
                                            }
@@ -82,7 +83,7 @@ struct ContentView: View {
         .padding()
         }
         .sheet(isPresented: $isSheetPresented) {
-            SearchCityView(selectedCoordinates: $selectedCoordinates)
+            SearchCityView(selectedCity: $selectedCity, selectedCoordinates: $selectedCoordinates)
         }
     }
 }

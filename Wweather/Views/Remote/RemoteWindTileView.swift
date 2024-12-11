@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import CoreLocation
+
 
 struct RemoteWindTileView: View {
     
     @StateObject private var locationManager = LocationManager()
     @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
+    @Binding var coordinates: CLLocationCoordinate2D?
+    
     var body: some View {
         
-        if locationManager.authorizationStatus == .authorizedWhenInUse {
+        if let coordinates = coordinates {
         ZStack{
 
             Circle()
@@ -86,18 +90,17 @@ struct RemoteWindTileView: View {
             .cornerRadius(25)
 
             .task {
-                if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
-                                      await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-                                  }
-                              }
-                          } else {
-        Text("Error Loading Location")
+                await weatherViewModel.fetchWeather(latitude: coordinates.latitude, longitude: coordinates.longitude)
+            }
+        } else {
+            Text("Select a city to see the weather")
+        }
     }
 }
-}
+
     
 
 
 #Preview {
-    RemoteWindTileView()
+    RemoteWindTileView(coordinates: .constant(nil))
 }

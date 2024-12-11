@@ -6,82 +6,82 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct RemoteWeatherTileView: View {
-        @StateObject private var locationManager = LocationManager()
-       @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
+    @Binding var coordinates: CLLocationCoordinate2D? // Binding pour accepter les coordonnées
+
     var body: some View {
-        
-        if locationManager.authorizationStatus == .authorizedWhenInUse {
-            ZStack{
-                VStack(alignment: .leading){
-    // Bloc Temperature & conditions
-                    HStack{
-                        VStack(alignment: .leading){
-                            Text("\(weatherViewModel.displayTemperature)°")
-                                .font(.title)
+        VStack {
+            if let coordinates = coordinates {
+                ZStack {
+                    VStack(alignment: .leading) {
+                        // Bloc Temperature & conditions
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("\(weatherViewModel.displayTemperature)°")
+                                    .font(.title)
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.bold)
+                                Text("Feels like \(weatherViewModel.displayFeelsLike)°")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: weatherViewModel.displaySymbolName)
                                 .foregroundStyle(.white)
-                                .fontWeight(.bold)
-                            Text("Feels like \(weatherViewModel.displayFeelsLike)°")
+                                .font(.largeTitle)
+                        }
+                        Spacer()
+                        VStack(alignment: .leading){
+                            HStack {
+                                Image(systemName: "drop.halffull")
+                                    .foregroundStyle(.white)
+                                
+                                Text("XXmm")
+                                    .font(.title2)
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.bold)
+                            }
+                            Text("XXmm next 12h")
                                 .font(.caption)
                                 .foregroundStyle(.gray)
                         }
-                        
                         Spacer()
-                        
-                        Image(systemName: weatherViewModel.displaySymbolName)
-                            .foregroundStyle(.white)
-                            .font(.largeTitle)
-                    }
-                    Spacer()
-    // Bloc Precipitations
-                    VStack(alignment: .leading){
-                        HStack {
-                            Image(systemName: "drop.halffull")
-                                .foregroundStyle(.white)
-                            
-                            Text("XXmm")
-                                .font(.title2)
-                                .foregroundStyle(.white)
-                                .fontWeight(.bold)
+                        // Bloc Humidity
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image(systemName: "humidity.fill")
+                                    .foregroundStyle(.white)
+                                
+                                Text("\(weatherViewModel.displayHumidity)%")
+                                    .font(.title2)
+                                    .foregroundStyle(.white)
+                                    .fontWeight(.bold)
+                            }
                         }
-                        Text("XXmm next 12h")
-                            .font(.caption)
-                            .foregroundStyle(.gray)
                     }
-    // Bloc Humidity
-                    Spacer()
-                    HStack{
-                        Image(systemName: "humidity.fill")
-                            .foregroundStyle(.white)
-                        
-                        Text("\(weatherViewModel.displayHumidity)%")
-                            .font(.title2)
-                            .foregroundStyle(.white)
-                            .fontWeight(.bold)
-                    }
+                    .padding()
                 }
-                .padding()
-            }
-            .frame(width: 180, height: 195)
-            .background(Color.deepdark)
-            .cornerRadius(25)
-            
+                .frame(width: 180, height: 195)
+                .background(Color.deepdark)
+                .cornerRadius(25)
                 .task {
-                    if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
-                                          await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-                                      }
-                                  }
-                              } else  {
-            Text("Error Loading Location")
+                    // Fetch weather using the selected coordinates
+                    await weatherViewModel.fetchWeather(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                }
+            } else {
+                Text("Select a city to see the weather")
+            }
         }
     }
 }
-        
-        
-    
 
 #Preview {
-    RemoteWeatherTileView()
+    RemoteWeatherTileView(coordinates: .constant(nil))
 }

@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct ContentView: View {
     
+  
     @State private var isSheetPresented = false
+    @State private var selectedCoordinates: CLLocationCoordinate2D?
     
     var body: some View {
         ZStack(alignment: .top){
@@ -45,8 +48,7 @@ struct ContentView: View {
                     }
                     HStack{
                         LocalWeatherTileView()
-                        RemoteWeatherTileView()
-                    }
+                        RemoteWeatherTileView(coordinates: $selectedCoordinates)                    }
                     .padding(.bottom)
                     HStack{
                         Image(systemName: "wind")
@@ -58,7 +60,7 @@ struct ContentView: View {
                     }
                     HStack{
                         LocalWindTileView()
-                        RemoteWindTileView()
+                        RemoteWindTileView(coordinates: $selectedCoordinates)
                     }
                     .padding(.bottom)
                     HStack{
@@ -71,7 +73,7 @@ struct ContentView: View {
                     }
                     HStack{
                         LocalUVIndexTileView()
-                        RemoteUVIndexTileView()
+                        RemoteUVIndexTileView(coordinates: $selectedCoordinates)
                     }
                     
                 }
@@ -80,7 +82,7 @@ struct ContentView: View {
         .padding()
         }
         .sheet(isPresented: $isSheetPresented) {
-            SearchCityView(cityName: "Napoli")
+            SearchCityView(selectedCoordinates: $selectedCoordinates)
         }
     }
 }

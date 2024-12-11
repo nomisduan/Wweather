@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct RemoteUVIndexTileView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
-    
+   
+    @Binding var coordinates: CLLocationCoordinate2D?
     
     var body: some View {
         
-        if locationManager.authorizationStatus == .authorizedWhenInUse {
+        if let coordinates = coordinates {
         ZStack(alignment: .topLeading){
             VStack(alignment: .leading, spacing: 1){
                 HStack {
@@ -45,16 +47,16 @@ struct RemoteUVIndexTileView: View {
             .cornerRadius(25)
             
             .task {
-                if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
-                                      await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-                                  }
-                              }
-                          } else  {
-        Text("Error Loading Location")
+                // Fetch weather using the selected coordinates
+                await weatherViewModel.fetchWeather(latitude: coordinates.latitude, longitude: coordinates.longitude)
+            }
+        } else {
+            Text("Select a city to see the weather")
+        }
     }
 }
-}
+
 
 #Preview {
-    RemoteUVIndexTileView()
+    RemoteUVIndexTileView(coordinates: .constant(nil))
 }

@@ -44,8 +44,8 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        WeatherTileView(temperature: 3, feelsLike: 0, rainMm: 3, rain12h: 12, humidity: 74, weatherConditions: "cloud.snow.fill")
-                        WeatherTileView(temperature: -3, feelsLike: -10, rainMm: 0, rain12h: 0, humidity: 40, weatherConditions: "sun.max.fill")
+                        WeatherTileView()
+                        WeatherTileView()
                     }
                     .padding(.bottom)
                     HStack{
@@ -57,21 +57,21 @@ struct ContentView: View {
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        WindTileView(windSpeed: 20, windDirection: 180.0)
-                        WindTileView(windSpeed: 34, windDirection: 90.0)
+                        WindTileView()
+                        WindTileView()
                     }
                     .padding(.bottom)
                     HStack{
-                        Image(systemName: "aqi.medium")
+                        Image(systemName: "sun.max")
                         //.font(.caption)
                             .foregroundStyle(.gray)
-                        Text("Air quality")
+                        Text("UV Index")
                         //.font(.caption)
                             .foregroundStyle(.gray)
                     }
                     HStack{
-                        AirQualityView(airQualityLabel: "Poor", airQualityCursor: 30.0)
-                        AirQualityView(airQualityLabel: "Fair", airQualityCursor: -30.0)
+                        UVIndexView()
+                        UVIndexView()
                     }
                     
                 }

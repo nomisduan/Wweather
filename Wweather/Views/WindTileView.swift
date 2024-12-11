@@ -9,11 +9,8 @@ import SwiftUI
 
 struct WindTileView: View {
     
-    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
-    @StateObject var locationManager = LocationManager()
-    
-    let windSpeed : Int
-    let windDirection : Double
+    @StateObject private var locationManager = LocationManager()
+       @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
     var body: some View {
         
@@ -64,7 +61,7 @@ struct WindTileView: View {
                 .scaledToFit()
                 .foregroundStyle(.white)
                 .frame(height: 85)
-                .rotationEffect(Angle(degrees: localWeatherKitManager.windDirection))
+                .rotationEffect(Angle(degrees: weatherViewModel.displayWindDirection))
             Circle()
                 .foregroundStyle(Color.deepdark)
                 .frame(width: 60, height: 60)
@@ -72,7 +69,7 @@ struct WindTileView: View {
                 .foregroundStyle(.white)
                 .frame(width: 55, height: 55)
             VStack(spacing: -3){
-                Text(String(localWeatherKitManager.windSpeed))
+                Text(String(weatherViewModel.displayWindSpeed))
                     .foregroundStyle(.gray)
                     .font(.title3)
                     .fontWeight(.semibold)
@@ -89,9 +86,11 @@ struct WindTileView: View {
             .cornerRadius(25)
 
             .task {
-                await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-            }
-    } else {
+                if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
+                                      await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
+                                  }
+                              }
+                          } else {
         Text("Error Loading Location")
     }
 }
@@ -100,5 +99,5 @@ struct WindTileView: View {
 
 
 #Preview {
-    WindTileView(windSpeed: 10, windDirection: 24.0)
+    WindTileView()
 }

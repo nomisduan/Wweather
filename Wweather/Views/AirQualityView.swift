@@ -9,13 +9,13 @@ import SwiftUI
 
 
 
-struct AirQualityView: View {
+struct UVIndexView: View {
     
-    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
-    @StateObject var locationManager = LocationManager()
+   
     
-    let airQualityLabel : String
-    let airQualityCursor : Double
+    @StateObject private var locationManager = LocationManager()
+       @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
+    
     
     var body: some View {
         
@@ -23,10 +23,10 @@ struct AirQualityView: View {
         ZStack(alignment: .topLeading){
             VStack(alignment: .leading, spacing: 1){
                 HStack {
-                    Text(airQualityLabel)
+                    Text(String(weatherViewModel.displayUvIndex))
                         .foregroundStyle(.white)
                         .font(.title3)
-                    if airQualityCursor >= 25.0 {
+                    if weatherViewModel.displayUvIndex >= 8 {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundStyle(.yellow)
                     }
@@ -40,7 +40,8 @@ struct AirQualityView: View {
                     Circle()
                         .frame(width: 20)
                         .foregroundStyle(.white)
-                        .offset(x: CGFloat(airQualityCursor))
+                        .offset(x: CGFloat((120/11) * weatherViewModel.displayUvIndex - 60
+                                          ))
                 }
             }
         }
@@ -49,14 +50,16 @@ struct AirQualityView: View {
             .cornerRadius(25)
             
             .task {
-                await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-            }
-    } else {
+                if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
+                                      await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
+                                  }
+                              }
+                          } else  {
         Text("Error Loading Location")
     }
 }
 }
 
 #Preview {
-    AirQualityView(airQualityLabel: "Fair", airQualityCursor: 51.0)
+    UVIndexView()
 }

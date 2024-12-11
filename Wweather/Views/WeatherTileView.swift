@@ -8,15 +8,10 @@
 import SwiftUI
 
 struct WeatherTileView: View {
-    let temperature : Int
-    let feelsLike : Int
-    let rainMm : Int
-    let rain12h : Int
-    let humidity : Int
-    let weatherConditions : String
     
-    @ObservedObject var localWeatherKitManager = LocalWeatherKitManager()
-    @StateObject var locationManager = LocationManager()
+    
+    @StateObject private var locationManager = LocationManager()
+       @StateObject private var weatherViewModel = CurrentWeatherKitViewModel()
     
     var body: some View {
         
@@ -26,18 +21,18 @@ struct WeatherTileView: View {
     // Bloc Temperature & conditions
                     HStack{
                         VStack(alignment: .leading){
-                            Text("\(localWeatherKitManager.temp)°")
+                            Text("\(weatherViewModel.displayTemperature)°")
                                 .font(.title)
                                 .foregroundStyle(.white)
                                 .fontWeight(.bold)
-                            Text("Feels like \(localWeatherKitManager.feelsLike)°")
+                            Text("Feels like \(weatherViewModel.displayFeelsLike)°")
                                 .font(.caption)
                                 .foregroundStyle(.gray)
                         }
                         
                         Spacer()
                         
-                        Image(systemName: localWeatherKitManager.symbol)
+                        Image(systemName: weatherViewModel.displaySymbolName)
                             .foregroundStyle(.white)
                             .font(.largeTitle)
                     }
@@ -48,12 +43,12 @@ struct WeatherTileView: View {
                             Image(systemName: "drop.halffull")
                                 .foregroundStyle(.white)
                             
-                            Text("\(rainMm)mm")
+                            Text("XXmm")
                                 .font(.title2)
                                 .foregroundStyle(.white)
                                 .fontWeight(.bold)
                         }
-                        Text("\(rain12h)mm next 12h")
+                        Text("XXmm next 12h")
                             .font(.caption)
                             .foregroundStyle(.gray)
                     }
@@ -63,7 +58,7 @@ struct WeatherTileView: View {
                         Image(systemName: "humidity.fill")
                             .foregroundStyle(.white)
                         
-                        Text("\(localWeatherKitManager.humidity)%")
+                        Text("\(weatherViewModel.displayHumidity)%")
                             .font(.title2)
                             .foregroundStyle(.white)
                             .fontWeight(.bold)
@@ -76,9 +71,11 @@ struct WeatherTileView: View {
             .cornerRadius(25)
             
                 .task {
-                    await localWeatherKitManager.getWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
-                }
-        } else {
+                    if locationManager.latitude != 0.0, locationManager.longitude != 0.0 {
+                                          await weatherViewModel.fetchWeather(latitude: locationManager.latitude, longitude: locationManager.longitude)
+                                      }
+                                  }
+                              } else  {
             Text("Error Loading Location")
         }
     }
@@ -88,5 +85,5 @@ struct WeatherTileView: View {
     
 
 #Preview {
-    WeatherTileView(temperature: 3, feelsLike: 0, rainMm: 3, rain12h: 12, humidity: 74, weatherConditions: "cloud.snow.fill")
+    WeatherTileView()
 }

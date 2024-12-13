@@ -37,11 +37,19 @@ struct LocalUVIndexTileView: View {
                         .foregroundStyle(
                             LinearGradient(colors: [.blue, .green, .yellow, .red, .purple], startPoint: .leading, endPoint: .trailing)
                         )
+                    ZStack {
+                        
+                        Circle()
+                            .frame(width: 14)
+                            .foregroundStyle(.deepdark)
+                            .offset(x: CGFloat((120/11) * weatherViewModel.displayUvIndex - 60
+                                              ))
                     Circle()
-                        .frame(width: 20)
+                        .frame(width: 8)
                         .foregroundStyle(.white)
                         .offset(x: CGFloat((120/11) * weatherViewModel.displayUvIndex - 60
                                           ))
+                    }
                 }
             }
         }

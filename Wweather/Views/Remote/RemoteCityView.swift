@@ -15,10 +15,17 @@ struct RemoteCityView: View {
     var body: some View {
         if let city = city {
             VStack{
-                Text(city)
-                    .font(.system(.largeTitle, design: .serif))
-                    .fontWeight(.semibold)
-                    .foregroundStyle(.white)
+                HStack(spacing: 1) {
+                    
+                    Text(city)
+                        .frame(height: 50)
+                        .font(.system(.largeTitle, design: .serif))
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                    Image(systemName: "pencil")
+                        .font(.title3)
+                        .foregroundStyle(.white)
+                }
                 
                 Text(Date.now, format: .dateTime.hour().minute())
                     .font(.largeTitle)
@@ -28,9 +35,16 @@ struct RemoteCityView: View {
             .frame(width: 180)
         }
         else {
-            Text("Select")
+            ZStack{
+        }
+            .frame(width: 180, height: 500)
+            .background(Color.deepdark)
+            .cornerRadius(25)
+           
         }
     }
 }
-
+#Preview {
+    TestView()
+}
 

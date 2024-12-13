@@ -14,6 +14,7 @@ struct LocalCityView: View {
        var body: some View {
            VStack {
                Text(cityName)
+                   .frame(height: 50)
                    .font(.system(.largeTitle, design: .serif))
                    .fontWeight(.semibold)
                    .foregroundStyle(.white)

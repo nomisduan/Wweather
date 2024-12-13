@@ -93,7 +93,7 @@ struct RemoteWindTileView: View {
                 await weatherViewModel.fetchWeather(latitude: coordinates.latitude, longitude: coordinates.longitude)
             }
         } else {
-            Text("Select a city to see the weather")
+            
         }
     }
 }

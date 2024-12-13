@@ -15,16 +15,22 @@ struct RemoteCityView: View {
     var body: some View {
         if let city = city {
             VStack{
-                HStack(spacing: 1) {
-                    
+                VStack(spacing: 0) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundStyle(.white)
+                            .font(.caption)
+                            .foregroundStyle(.white)
+                        Text("MY LOCATION")
+                            .font(.caption)
+                            .foregroundStyle(.white)
+                    }
                     Text(city)
-                        .frame(height: 50)
-                        .font(.system(.largeTitle, design: .serif))
+                        .frame(height: 20)
+                        .font(.system(.title, design: .serif))
                         .fontWeight(.semibold)
                         .foregroundStyle(.white)
-                    Image(systemName: "pencil")
-                        .font(.title3)
-                        .foregroundStyle(.white)
+                    
                 }
                 
                 Text(Date.now, format: .dateTime.hour().minute())

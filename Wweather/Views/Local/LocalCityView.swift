@@ -13,12 +13,21 @@ struct LocalCityView: View {
 
        var body: some View {
            VStack {
+               HStack(spacing: 0) {
+                   Image(systemName: "location")
+                       .foregroundStyle(.white)
+                       .font(.caption)
+                       .foregroundStyle(.white)
+                   Text("MY LOCATION")
+                       .font(.caption)
+                       .foregroundStyle(.white)
+               }
                Text(cityName)
-                   .frame(height: 50)
-                   .font(.system(.largeTitle, design: .serif))
+                   .frame(height: 20)
+                   .font(.system(.title, design: .serif))
                    .fontWeight(.semibold)
                    .foregroundStyle(.white)
-                  // .padding()
+                 
 
                Text(Date.now, format: .dateTime.hour().minute())
                    .font(.largeTitle)
